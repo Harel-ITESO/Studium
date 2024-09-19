@@ -5,11 +5,13 @@ import "reflect-metadata";
 import { container } from "./utils/container";
 import env from "./utils/enviroment";
 import appRoute from "./modules/app.route";
+import cors from "cors";
 
 // bootstrap application
 const app = express();
 
 // middleware
+app.use(cors());
 app.use(express.json());
 app.use(scopePerRequest(container));
 app.use("/studium/v1/api", appRoute);
