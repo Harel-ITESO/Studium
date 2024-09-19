@@ -32,3 +32,5 @@ coverage
 # enviroment
 .env
 .env.local
+.env.prod
+.env.dev
