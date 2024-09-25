@@ -1,5 +1,4 @@
-# Base image
-FROM node:22-alpine3.19 AS base
+FROM node:22-alpine3.20 AS base
 
 WORKDIR /app
 
@@ -7,10 +6,8 @@ COPY package*.json .
 
 RUN npm install
 
-COPY prisma ./prisma
+COPY . .
 
 RUN npx prisma generate
 
-COPY . .
-
-CMD [ "npm", "run", "dev" ]
+CMD [ "npm", "run", "start:dev" ]
