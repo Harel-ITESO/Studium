@@ -9,7 +9,6 @@ The first script is `server-module.py`, this script allows you to generate a bac
 1. Controller
 2. Route
 3. Service
-4. Dependency Injection Container
 
 ### Usage
 
