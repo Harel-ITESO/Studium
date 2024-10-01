@@ -13,16 +13,11 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
         const response = context.getResponse<Response>();
         const message = exception.message.replace('/\n/g', '');
 
-        switch (exception.code) {
-            /** Unique constraint violated */
-            case 'P2002':
-                const status = HttpStatus.BAD_REQUEST;
-                response.status(status).json({
-                    statusCode: status,
-                    message: message,
-                });
-                break;
-        }
+        const badRequest = HttpStatus.BAD_REQUEST;
+        response.status(badRequest).json({
+            statusCode: badRequest,
+            message,
+        });
 
         super.catch(exception, host);
     }

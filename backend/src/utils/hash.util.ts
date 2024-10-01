@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 
 /** Utilities for hasing strings */
 
@@ -8,6 +8,7 @@ import bcrypt from 'bcrypt';
  * @returns  Hashed password
  */
 export async function hashPassword(password: string) {
+    console.log(bcrypt);
     const salt = await bcrypt.genSalt(10);
     return await bcrypt.hash(password, salt);
 }
