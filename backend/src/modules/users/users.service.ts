@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from 'src/modules/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { hashPassword } from 'src/utils/hash.util';
 import { UpdateUserDto } from './dto/update-user.dto';
-
+import { Prisma } from '@prisma/client';
 @Injectable()
 export class UsersService {
     constructor(private readonly prismaService: PrismaService) {}
@@ -18,6 +18,17 @@ export class UsersService {
             where: {
                 id,
             },
+        });
+    }
+
+    /**
+     * Finds a user by a unique input
+     * @param where Attributes to find on
+     * @returns User found
+     */
+    public async getUserWhere(where: Prisma.UserWhereUniqueInput) {
+        return await this.prismaService.user.findUnique({
+            where,
         });
     }
 
