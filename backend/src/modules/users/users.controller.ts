@@ -6,11 +6,9 @@ import {
     NotFoundException,
     Put,
     Body,
-    Post,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { CreateUserDto } from './dto/create-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -34,12 +32,5 @@ export class UsersController {
         if (!updated)
             throw new NotFoundException('Not found the user to update');
         return updated;
-    }
-
-    /** TESTING ONLY */
-    @Post('')
-    public async createUser(@Body('data') data: CreateUserDto) {
-        const created = this.usersService.createUser(data);
-        return created;
     }
 }
