@@ -1,1 +1,33 @@
-<p>form-input works!</p>
+<div class="form-control">
+    @if(iconLeft) { @if(iconSubmitsForm) {
+    <button class="icon icon-left">
+        <i [class]="iconLeft"></i>
+    </button>
+    } @else {
+    <i [class]="'icon icon-left' + ' ' + iconLeft"></i>
+    } }
+    <input
+        [name]="name || 'input'"
+        [id]="id"
+        [type]="type"
+        [placeholder]="placeholder"
+        [value]="value"
+        (input)="onInput($event)"
+        [attr.maxLength]="maxLength && maxLength > 0 ? maxLength : null"
+        [class]="
+            className +
+            (iconLeft ? ' left-pad' : '') +
+            (iconRight ? ' right-pad' : '')
+        "
+    />
+    @if(iconRight) { @if(iconSubmitsForm) {
+    <button class="icon icon-right">
+        <i [class]="iconRight"></i>
+    </button>
+    } @else {
+
+    <i [class]="'icon icon-right' + ' ' + iconRight"></i>
+    } } @if(maxLength && maxLength > 0) {
+    <span>{{ length }} / {{ maxLength }}</span>
+    }
+</div>

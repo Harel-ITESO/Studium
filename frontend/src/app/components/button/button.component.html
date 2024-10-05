@@ -1,3 +1,9 @@
-<button [type]="type" [class]="role" (click)="handleButtonClick()">
+<button [type]="type" [class]="className" (click)="handleButtonClick()">
+    @if (iconLeft) {
+    <i [class]="iconLeft"></i>
+    }
     <ng-content></ng-content>
+    @if (iconRight) {
+    <i [class]="iconRight"></i>
+    }
 </button>
