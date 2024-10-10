@@ -1,0 +1,38 @@
+@use "sass:color";
+@use "sass:list";
+@use "sass:math";
+
+// Base colors
+
+/** primary */
+$studium-primary-200: #eab256;
+$studium-primary-400: #f7af3c;
+$studium-primary-500: #ffa81b;
+$studium-primary-600: #ffa81c;
+$studium-primary-700: #fc9b00;
+
+$studium-danger: #ff2828;
+$studium-warning: #ffd900;
+$studium-success: #64e528;
+$studium-info: #39bdff;
+
+// Sizes
+
+$rounded-sizes: (
+    none: 0px,
+    xs: 0.125rem,
+    s: 0.25rem,
+    m: 0.375rem,
+    l: 0.5rem,
+    xl: 0.75rem,
+    2xl: 1rem,
+    3xl: 1.5rem,
+    full: 9999px,
+);
+
+// Set sizes for classes
+@each $key, $value in $rounded-sizes {
+    .rounded-#{$key} {
+        border-radius: $value;
+    }
+}
