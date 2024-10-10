@@ -1,0 +1,7 @@
+{
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/passport-facebook": "^3.0.3",
+    "@types/passport-google-oauth20": "^2.0.16"
+  }
+}
