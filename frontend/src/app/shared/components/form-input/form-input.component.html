@@ -14,6 +14,8 @@
         [value]="value"
         (input)="onInput($event)"
         [attr.maxLength]="maxLength && maxLength > 0 ? maxLength : null"
+        [disabled]="isDisabled"
+        [required]="required"
         [class]="
             className +
             (iconLeft ? ' left-pad' : '') +

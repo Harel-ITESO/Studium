@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { noop } from 'rxjs';
-import { ColorRole, Rounded } from '../../../../types/style-types';
+import { ColorRole, Rounded } from '../../../../../types/style-types';
 
 type InputType =
     | 'button'
@@ -51,6 +51,7 @@ export class FormInputComponent implements OnInit, ControlValueAccessor {
     @Input() id = '';
     @Input() name = '';
     @Input() maxLength? = 0;
+    @Input() required = false;
 
     // Styling properties
     @Input() role: ColorRole = 'primary';

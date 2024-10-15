@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+    Injectable,
+    NotFoundException,
+    UnauthorizedException,
+} from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { comparePasswords } from 'src/utils/hash.util';
@@ -22,16 +26,18 @@ export class AuthService {
      */
     public async logIn(email: string, password: string) {
         const user = await this.usersService.getUserWhere({ email });
-        if (!user) throw new Error('Password not matching');
+        if (!user) throw new NotFoundException('User was not found');
         const isPassword = await comparePasswords(password, user.password);
-        if (!isPassword) throw new Error('Password not matching');
-        const payload = new JwtPayload(user);
+        if (!isPassword)
+            throw new UnauthorizedException(
+                'Provided user cannot be authenticated',
+            );
+        const payload = JwtPayload.fromUser(user);
 
         const token = await this.jwtService.signAsync(
-            { ...payload },
+            { ...payload, expiresIn: '1h' },
             {
-                secret:
-                    this.configService.get<string>('JWT_SECRET') || 'unsafe',
+                secret: this.configService.get<string>('JWT_SECRET'),
             },
         );
         return token;
