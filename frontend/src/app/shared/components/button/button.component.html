@@ -1,0 +1,16 @@
+<button
+    [type]="type"
+    [class]="className + (isLoading ? ' loading' : '')"
+    (click)="handleButtonClick()"
+    [disabled]="disabled"
+>
+    @if (isLoading) {
+    <app-loader></app-loader>
+    } @else { @if (iconLeft) {
+    <i [class]="iconLeft"></i>
+    }
+    <ng-content></ng-content>
+    @if (iconRight) {
+    <i [class]="iconRight"></i>
+    } }
+</button>

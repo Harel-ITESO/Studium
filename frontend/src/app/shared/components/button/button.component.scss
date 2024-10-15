@@ -1,4 +1,4 @@
-@import "../../../scss/imports";
+@import "../../../../scss/imports";
 
 // Color hovering on filled styles
 @mixin filled-colors-hover($base-color, $to-dark: false) {
@@ -39,20 +39,34 @@
 // Sets the button style based on the attribute data
 @mixin set-button-attribute-styles($base-color) {
     @include variant-styles($base-color);
+    &:disabled {
+        background-color: #eee !important;
+        color: #0004 !important;
+        cursor: not-allowed;
+    }
+    &.loading {
+        cursor: not-allowed;
+        &:hover {
+            background-color: $base-color;
+        }
+    }
 }
 
 // Button base
 button {
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     font-family: inherit;
-    padding: 0.5rem 1rem;
+    padding: 0.8rem 1rem;
     cursor: pointer;
     border: none;
     transition: all linear;
     transition-duration: 100ms;
     display: flex;
     align-items: center;
+    justify-content: center;
     outline: none;
+    width: 100%;
+    text-align: center;
     gap: 0.7rem;
     i {
         font-size: 1.5rem;

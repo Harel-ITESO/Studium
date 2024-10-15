@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { FormInputComponent } from '../../components/form-input/form-input.component';
-import { ButtonComponent } from '../../components/button/button.component';
+import { FormInputComponent } from '../../shared/components/form-input/form-input.component';
+import { ButtonComponent } from '../../shared/components/button/button.component';
 import { FormsModule } from '@angular/forms';
 import { RestService } from '../../services/rest/rest.service';
 import { environment } from '../../../environments/environment.development';

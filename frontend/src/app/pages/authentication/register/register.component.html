@@ -1,0 +1,82 @@
+<div>
+    <h2>Register</h2>
+    @if(error) {
+    <span class="error-message">{{ errorMessage }}</span>
+    }
+    <form [formGroup]="registerForm" (ngSubmit)="handleSubmit()">
+        <div class="names">
+            <app-form-input
+                id="firstName"
+                name="firstName"
+                formControlName="firstName"
+                placeholder="First Name"
+                [required]="true"
+                iconLeft="fa-solid fa-user"
+            ></app-form-input>
+            <app-form-input
+                id="lastName"
+                name="lastName"
+                formControlName="lastName"
+                placeholder="Last Name"
+                [required]="true"
+                iconLeft="fa-solid fa-user"
+            ></app-form-input>
+        </div>
+        <app-form-input
+            id="email"
+            placeholder="E-mail"
+            iconLeft="fa-solid fa-envelope"
+            formControlName="email"
+            type="email"
+            [required]="true"
+        ></app-form-input>
+        <app-form-input
+            id="password"
+            placeholder="Password"
+            iconLeft="fa-solid fa-lock"
+            type="password"
+            formControlName="password"
+            [required]="true"
+        ></app-form-input>
+        <app-form-input
+            id="doubleCheckPassword"
+            placeholder="Write your password again"
+            iconLeft="fa-solid fa-lock"
+            type="password"
+            formControlName="doubleCheckPassword"
+            [required]="true"
+        ></app-form-input>
+        <app-button type="submit" [disabled]="registerForm.invalid"
+            >Register</app-button
+        >
+    </form>
+    <div class="return-to-login">
+        <span
+            >Already have an account?
+            <a routerLink="/authentication/login">Log in here!</a></span
+        >
+    </div>
+    <div class="social-register">
+        <div class="divider">
+            <div class="divide"></div>
+            <span>Or Sign-Up with</span>
+            <div class="divide"></div>
+        </div>
+        <div class="social-register-options">
+            @for (option of socialRegisterOptions; track $index) {
+            <div class="option">
+                <a
+                    [href]="option.sendUrl"
+                    [title]="option.name + ' social register'"
+                >
+                    <img
+                        [src]="option.image"
+                        [alt]="option.name + ' image for social register'"
+                        width="30"
+                    />
+                </a>
+            </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,4 +1,5 @@
 import { IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
+import { RegisterUserDto } from '../../auth/dto/register-user.dto';
 
 export class CreateUserDto {
     @IsNotEmpty()
@@ -13,4 +14,13 @@ export class CreateUserDto {
 
     @IsOptional()
     password?: string;
+
+    public static fromRegisterData(data: RegisterUserDto) {
+        const user = new CreateUserDto();
+        user.email = data.email;
+        user.firstName = data.firstName;
+        user.lastName = data.lastName;
+        user.password = data.password;
+        return user;
+    }
 }
