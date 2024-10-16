@@ -1,0 +1,29 @@
+.navbar {
+    margin-bottom: 20px;
+    border-left: 80px solid #FFBA4B; /* Ajusta el borde izquierdo */
+    border-top-right-radius: 20px; /* Redondea la esquina superior derecha */
+    border-bottom-right-radius: 20px; /* Redondea la esquina inferior derecha */
+    font-size: 14px;
+    height: 80px;
+    padding: 20px 30px;
+    position: relative; /* Necesario para posicionar la imagen */
+}
+
+.navbar-logo {
+    position: absolute;
+    top: 50%;
+    left: -20px; /* Ajusta según sea necesario */
+    transform: translateY(-50%);
+    height: 60px; /* Ajusta la altura de la imagen */
+}
+
+.navbar ul {
+    margin-left: auto;
+}
+
+.navbar ul li {
+    display: inline;
+    margin-right: 20px;
+    font-size: 18px;
+
+}
