@@ -37,12 +37,12 @@
     <div class="social-login">
         <div class="divider">
             <div class="divide"></div>
-            <span>Or Log-in with</span>
+            <span>Or</span>
             <div class="divide"></div>
         </div>
         <div class="social-login-options">
             @for (option of socialLoginOptions; track $index) {
-            <div class="option">
+            <div class="option rounded-full">
                 <a
                     [href]="option.sendUrl"
                     [title]="option.name + ' social login'"
@@ -52,6 +52,7 @@
                         [alt]="option.name + ' image for social login'"
                         width="30"
                     />
+                    Login with {{ option.name }}
                 </a>
             </div>
             }

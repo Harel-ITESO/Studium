@@ -8,6 +8,7 @@ import { UserRegister } from './models/register-user';
 })
 export class AuthenticationService {
     private readonly baseUrl = environment.apiUri + '/auth';
+    public authenticatedUser: { name: string; email: string } | null = null;
 
     constructor(private readonly restService: RestService) {}
 
@@ -42,5 +43,16 @@ export class AuthenticationService {
             }
         );
         return message;
+    }
+
+    /**
+     * Validates if the user is authenticated
+     * @returns True if the user is authenticated
+     */
+    public async validate() {
+        return await this.restService.get<{
+            valid: boolean;
+            userInformation: { email: string; id: number };
+        }>(this.baseUrl + '/validate');
     }
 }

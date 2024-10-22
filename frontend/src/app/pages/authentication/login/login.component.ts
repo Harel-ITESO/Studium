@@ -56,12 +56,14 @@ export class LoginComponent {
             const password = this.formGroup.get('password')?.value || '';
             this.formGroup.disable();
             await this.authenticationService.loginUser(email, password);
-            this.router.navigate(['/']);
+            this.router.navigate(['/platform']);
         } catch (e) {
+            console.log(e);
             this.error = true;
             if (e instanceof HttpErrorResponse) {
-                if (e.status === 401 || e.status === 404)
+                if (e.status === 401 || e.status === 404 || e.status === 400)
                     this.errorMessage = 'Invalid email or password';
+                else this.errorMessage = 'Error, please try again later';
             }
         }
         this.formGroup.enable();
