@@ -4,22 +4,16 @@ import { Router } from '@angular/router';
 
 type HttpMethods = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
+interface RequestWrapper {
+    body?: object;
+    headers?: Record<string, string>;
+}
+
 @Injectable({
     providedIn: 'root',
 })
 export class RestService {
-    private authorizationHeader = { Authorization: '' };
-
     constructor(private readonly router: Router) {}
-
-    /**
-     * Set a default authorization header to be sent on every request
-     * @param token The token for authorization
-     */
-    public setAuthorizationToken(token: string) {
-        if (!token) throw new Error('Token not found');
-        this.authorizationHeader.Authorization = `Bearer ${token}`;
-    }
 
     /**
      * Get method
@@ -27,7 +21,7 @@ export class RestService {
      * @param options Options for the api request
      * @returns Data if found
      */
-    public async get<T>(url: string, options: RequestInit = {}): Promise<T> {
+    public async get<T>(url: string, options: RequestWrapper = {}): Promise<T> {
         return await this.request<T>(url, options, 'GET');
     }
 
@@ -37,7 +31,10 @@ export class RestService {
      * @param options Options for the api request
      * @returns Data if found
      */
-    public async post<T>(url: string, options: RequestInit = {}): Promise<T> {
+    public async post<T>(
+        url: string,
+        options: RequestWrapper = {}
+    ): Promise<T> {
         return await this.request<T>(url, options, 'POST');
     }
 
@@ -47,7 +44,7 @@ export class RestService {
      * @param options Options for the api request
      * @returns Data if found
      */
-    public async put<T>(url: string, options: RequestInit = {}): Promise<T> {
+    public async put<T>(url: string, options: RequestWrapper = {}): Promise<T> {
         return await this.request<T>(url, options, 'PUT');
     }
 
@@ -57,7 +54,10 @@ export class RestService {
      * @param options Options for the api request
      * @returns Data if found
      */
-    public async patch<T>(url: string, options: RequestInit = {}): Promise<T> {
+    public async patch<T>(
+        url: string,
+        options: RequestWrapper = {}
+    ): Promise<T> {
         return await this.request<T>(url, options, 'PATCH');
     }
 
@@ -67,7 +67,10 @@ export class RestService {
      * @param options Options for the api request
      * @returns Data if found
      */
-    public async delete<T>(url: string, options: RequestInit = {}): Promise<T> {
+    public async delete<T>(
+        url: string,
+        options: RequestWrapper = {}
+    ): Promise<T> {
         return await this.request<T>(url, options, 'DELETE');
     }
 
@@ -80,12 +83,21 @@ export class RestService {
      */
     private async request<T>(
         url: string,
-        options: RequestInit,
+        options: RequestWrapper,
         method: HttpMethods
     ): Promise<T> {
-        this.setupRequestHeaders(options);
-        options.method = method;
-        return (await this.fetchRequest(url, options)) as T;
+        const requestOptions = {} as RequestInit;
+        const headers = options.headers || {};
+        if (method !== 'GET' && method !== 'DELETE') {
+            if (!headers['Content-Type'])
+                headers['Content-Type'] = 'application/json';
+        }
+        requestOptions.headers = { ...headers };
+        requestOptions.method = method;
+
+        requestOptions.credentials = 'include';
+        if (options.body) requestOptions.body = JSON.stringify(options.body);
+        return (await this.fetchRequest(url, requestOptions)) as T;
     }
 
     /**
@@ -96,28 +108,23 @@ export class RestService {
      */
     private async fetchRequest(url: string, requestOptions: RequestInit) {
         const response = await fetch(url, { ...requestOptions });
-        if (![200, 201, 202].includes(response.status)) {
-            if (response.status === 401) {
+        if (![200, 201, 202, 204].includes(response.status)) {
+            if (
+                response.status === 401 &&
+                !window.location.href.includes('authentication') // ensure the redirect is done if the route is not 'authentication'
+            ) {
                 // Navigate to home if authentication is not possible
-                this.authorizationHeader = { Authorization: '' };
                 return this.router.navigate(['']);
             }
-            throw new HttpErrorResponse({ status: response.status });
+            throw new HttpErrorResponse({
+                error: await response.json(),
+                status: response.status,
+                statusText: response.statusText,
+            });
         }
 
         if (response.headers.get('Content-Type')?.includes('application/json'))
             return await response.json();
         return await response.text();
-    }
-
-    /**
-     * Sets up headers
-     * @param requestOptions Options for the api request
-     */
-    private setupRequestHeaders(requestOptions: RequestInit) {
-        requestOptions.headers = {
-            ...requestOptions.headers,
-            ...this.authorizationHeader,
-        };
     }
 }

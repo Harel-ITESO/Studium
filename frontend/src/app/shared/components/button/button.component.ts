@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ColorRole, Rounded } from '../../../../types/style-types';
+import { ColorRole, Rounded } from '../../../../../types/style-types';
+import { LoaderComponent } from './loader/loader.component';
 
 /** Internal types */
 type ButtonType = 'button' | 'menu' | 'reset' | 'submit';
@@ -8,7 +9,7 @@ type Variant = 'outlined' | 'filled';
 @Component({
     selector: 'app-button',
     standalone: true,
-    imports: [],
+    imports: [LoaderComponent],
     templateUrl: './button.component.html',
     styleUrl: './button.component.scss',
 })
@@ -20,6 +21,8 @@ export class ButtonComponent implements OnInit {
     @Input() rounded: Rounded = 'xl';
     @Input() iconLeft = '';
     @Input() iconRight = '';
+    @Input() disabled = false;
+    @Input() isLoading = false; // the loader needs to be shown
 
     /** State */
     public className = '';
@@ -34,6 +37,8 @@ export class ButtonComponent implements OnInit {
     }
 
     public handleButtonClick() {
+        if (this.disabled) return;
+        if (this.isLoading) return;
         this.click.emit();
     }
 }

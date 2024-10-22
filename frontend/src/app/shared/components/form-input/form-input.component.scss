@@ -1,4 +1,4 @@
-@import "../../../scss/imports";
+@import "../../../../scss/imports";
 
 @mixin set-input-styles($base-color) {
     &:focus {
@@ -15,7 +15,7 @@
         transition: all linear;
         transition-duration: 100ms;
         outline: none;
-        width: 50rem;
+        width: 100%;
         &.left-pad {
             padding-left: 4rem;
         }
@@ -25,6 +25,9 @@
 
         &[role="primary"] {
             @include set-input-styles($studium-primary-500);
+        }
+        &:disabled {
+            background-color: #eee;
         }
     }
     i {
