@@ -1,10 +1,10 @@
 import { User } from '@prisma/client';
 
 export class JwtPayload {
-    private id: number;
-    private firstName: string;
-    private lastName: string;
-    private email: string;
+    public id: number;
+    public firstName: string;
+    public lastName: string;
+    public email: string;
 
     private constructor({ id, firstName, lastName, email }: User) {
         this.id = id;

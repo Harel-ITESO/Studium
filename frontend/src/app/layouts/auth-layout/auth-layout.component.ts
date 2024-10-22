@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
 
 @Component({
     selector: 'app-auth-layout',
@@ -13,9 +14,19 @@ export class AuthLayoutComponent implements OnInit {
     public hidden = true;
     public className = `auth-box rounded-xl ${this.hidden ? 'hidden' : ''}`;
 
-    ngOnInit() {
-        setTimeout(() => {
-            this.hidden = false;
-        }, 200);
+    constructor(
+        private readonly authenticationService: AuthenticationService,
+        private readonly router: Router
+    ) {}
+
+    public async ngOnInit() {
+        const { valid } = await this.authenticationService.validate();
+        if (valid) {
+            this.router.navigate(['/platform']);
+        } else {
+            setTimeout(() => {
+                this.hidden = false;
+            }, 200);
+        }
     }
 }

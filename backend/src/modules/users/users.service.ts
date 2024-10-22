@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { hashPassword } from 'src/utils/hash.util';
@@ -39,12 +39,20 @@ export class UsersService {
      */
     public async createUser(data: CreateUserDto) {
         if (data.password) {
+            if (data.provider)
+                throw new BadRequestException(
+                    'Cannot create a user with password and provider',
+                );
             const { password, ...rest } = data;
             const hashed = await hashPassword(password);
             return await this.prismaService.user.create({
                 data: { ...rest, password: hashed },
             });
         }
+        if (!data.provider)
+            throw new BadRequestException(
+                'Local users must have a password or auth provider',
+            );
         return await this.prismaService.user.create({
             data,
         });

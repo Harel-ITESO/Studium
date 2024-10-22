@@ -5,6 +5,7 @@ import { TestPageComponent } from './pages/test-page/test-page.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { LoginComponent } from './pages/authentication/login/login.component';
 import { RegisterComponent } from './pages/authentication/register/register.component';
+import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
     /** Landing Page */
@@ -33,11 +34,15 @@ export const routes: Routes = [
     },
 
     /** Application pages */
-    { path: 'platform', component: MainLayoutComponent },
+    {
+        path: 'platform',
+        component: MainLayoutComponent,
+        canActivate: [AuthGuard], // Guard to check if user is authenticated
+    },
 
     /** FOR STARTER TESTING */
     { path: 'test', component: TestPageComponent },
 
     /** Redirect to home if route doesn't exist */
-    { path: '**', redirectTo: '', pathMatch: 'full' },
+    { path: '**', redirectTo: '/platform', pathMatch: 'full' },
 ];

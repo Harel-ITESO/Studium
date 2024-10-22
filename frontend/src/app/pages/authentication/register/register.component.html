@@ -64,7 +64,7 @@
         </div>
         <div class="social-register-options">
             @for (option of socialRegisterOptions; track $index) {
-            <div class="option">
+            <div class="option rounded-full">
                 <a
                     [href]="option.sendUrl"
                     [title]="option.name + ' social register'"
@@ -74,6 +74,8 @@
                         [alt]="option.name + ' image for social register'"
                         width="30"
                     />
+
+                    Register with {{ option.name }}
                 </a>
             </div>
             }

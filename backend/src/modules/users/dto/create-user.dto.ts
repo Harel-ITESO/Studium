@@ -15,6 +15,9 @@ export class CreateUserDto {
     @IsOptional()
     password?: string;
 
+    @IsOptional()
+    provider?: 'google' | 'facebook' | 'github';
+
     public static fromRegisterData(data: RegisterUserDto) {
         const user = new CreateUserDto();
         user.email = data.email;
