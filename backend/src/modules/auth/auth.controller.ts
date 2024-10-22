@@ -11,7 +11,9 @@ import { CookieOptions, Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { CreateUserDto } from '../users/dto/create-user.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Authentication')
 @Controller('auth')
 export class AuthController {
     constructor(
