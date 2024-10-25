@@ -1,0 +1,61 @@
+<div>
+    <h2>Log-In</h2>
+    @if(error) {
+    <span class="error-message">{{ errorMessage }}</span>
+    }
+    <form [formGroup]="formGroup" (ngSubmit)="handleFormSubmit()">
+        <app-form-input
+            id="email"
+            placeholder="E-mail"
+            iconLeft="fa-solid fa-envelope"
+            formControlName="email"
+            type="email"
+            [required]="true"
+        ></app-form-input>
+        <app-form-input
+            id="password"
+            placeholder="Password"
+            iconLeft="fa-solid fa-lock"
+            type="password"
+            formControlName="password"
+            [required]="true"
+        ></app-form-input>
+        <app-button
+            iconLeft="fa-solid fa-paper-plane"
+            type="submit"
+            [isLoading]="isLoading"
+            [disabled]="formGroup.invalid"
+            >Sign In</app-button
+        >
+    </form>
+    <div class="account-create-link">
+        <span
+            >You don't have an account?
+            <a routerLink="/authentication/register">Create one!</a></span
+        >
+    </div>
+    <div class="social-login">
+        <div class="divider">
+            <div class="divide"></div>
+            <span>Or</span>
+            <div class="divide"></div>
+        </div>
+        <div class="social-login-options">
+            @for (option of socialLoginOptions; track $index) {
+            <div class="option rounded-full">
+                <a
+                    [href]="option.sendUrl"
+                    [title]="option.name + ' social login'"
+                >
+                    <img
+                        [src]="option.image"
+                        [alt]="option.name + ' image for social login'"
+                        width="30"
+                    />
+                    Login with {{ option.name }}
+                </a>
+            </div>
+            }
+        </div>
+    </div>
+</div>

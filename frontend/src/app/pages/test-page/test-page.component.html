@@ -1,0 +1,31 @@
+<div>
+    <h1>Get user from Backend 😃</h1>
+    <div class="inner">
+        <ul class="user-info">
+            @if(errorMessage) {
+            <h3>{{ errorMessage }}</h3>
+            } @else if(foundUser) {
+            <h3>
+                User with name: {{ foundUser.firstName }}
+                {{ foundUser.lastName }}
+            </h3>
+            }
+        </ul>
+        <form (submit)="handleTodoSubmit($event)">
+            <app-form-input
+                placeholder="Write down UserID"
+                rounded="full"
+                name="todoInput"
+                iconLeft="fa-solid fa-user"
+                [(ngModel)]="idString"
+            ></app-form-input>
+            <app-button
+                iconRight="fa-solid fa-paper-plane"
+                rounded="full"
+                variant="outlined"
+                type="submit"
+                >Submit</app-button
+            >
+        </form>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+services:
+  # Database service
+  db:
+    container_name: db
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_PORT=5432
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d ${POSTGRES_DB} -U ${POSTGRES_USER}"]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+
+  # Backend vue service
+  backend:
+    container_name: backend
+    depends_on:
+      db:
+        condition: service_healthy
+    build:
+      context: ./backend
+    environment:
+      - PORT=4000
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
+      - JWT_SECRET=${JWT_SECRET}
+      - COOKIE_SECRET=${COOKIE_SECRET}
+      - FRONTEND_URL=${FRONTEND_URL}
+      #Google
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_SECRET=${GOOGLE_SECRET}
+      - GOOGLE_CALLBACK_URL=${GOOGLE_CALLBACK_URL}
+    ports:
+      - "4000:4000"
+
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+  # Frontend Vue service
+  frontend:
+    container_name: frontend
+    depends_on:
+      - backend
+    build:
+      context: ./frontend
+    environment:
+      - API_URI=http://localhost:4000/studium/v1/api
+    ports:
+      - "8080:4200"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+volumes:
+  pgdata:
+  backend:
+  frontend:

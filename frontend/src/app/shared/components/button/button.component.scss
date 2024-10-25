@@ -1,0 +1,92 @@
+@import "../../../../scss/imports";
+
+// Color hovering on filled styles
+@mixin filled-colors-hover($base-color, $to-dark: false) {
+    &:hover {
+        outline-offset: 0.5rem;
+        @if $to-dark {
+            background-color: darken($base-color, 10%);
+        } @else {
+            background-color: lighten($base-color, 7%);
+        }
+    }
+}
+
+// Color hovering on outlined style
+@mixin outlined-colors-hover($base-color) {
+    &:hover {
+        outline-offset: 0.5rem;
+        background-color: $base-color;
+        @include text-contrast($base-color);
+    }
+}
+
+// Variant base
+@mixin variant-styles($base-color) {
+    &.filled {
+        background-color: $base-color;
+        @include text-contrast($base-color);
+        @include filled-colors-hover($base-color);
+    }
+    &.outlined {
+        background-color: transparent;
+        color: $base-color;
+        outline: solid $base-color;
+        @include outlined-colors-hover($base-color);
+    }
+}
+
+// Sets the button style based on the attribute data
+@mixin set-button-attribute-styles($base-color) {
+    @include variant-styles($base-color);
+    &:disabled {
+        background-color: #eee !important;
+        color: #0004 !important;
+        cursor: not-allowed;
+    }
+    &.loading {
+        cursor: not-allowed;
+        &:hover {
+            background-color: $base-color;
+        }
+    }
+}
+
+// Button base
+button {
+    font-size: 1.7rem;
+    font-family: inherit;
+    padding: 0.8rem 1rem;
+    cursor: pointer;
+    border: none;
+    transition: all linear;
+    transition-duration: 100ms;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    width: 100%;
+    text-align: center;
+    gap: 0.7rem;
+    i {
+        font-size: 1.5rem;
+    }
+    &.primary {
+        @include set-button-attribute-styles($studium-primary-500);
+    }
+    &.secondary {
+        @include set-button-attribute-styles($studium-primary-700);
+    }
+    &.info {
+        @include set-button-attribute-styles($studium-info);
+    }
+    &.warning {
+        @include set-button-attribute-styles($studium-warning);
+    }
+    &.danger {
+        @include set-button-attribute-styles($studium-danger);
+    }
+    &.success {
+        @include set-button-attribute-styles($studium-success);
+    }
+}

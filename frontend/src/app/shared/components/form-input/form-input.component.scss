@@ -1,0 +1,69 @@
+@import "../../../../scss/imports";
+
+@mixin set-input-styles($base-color) {
+    &:focus {
+        outline: solid $base-color;
+        border: 1px solid #fff0;
+    }
+}
+
+.form-control {
+    position: relative;
+    input {
+        padding: 1rem;
+        font-family: inherit;
+        transition: all linear;
+        transition-duration: 100ms;
+        outline: none;
+        width: 100%;
+        &.left-pad {
+            padding-left: 4rem;
+        }
+        &.right-pad {
+            padding-right: 4rem;
+        }
+
+        &[role="primary"] {
+            @include set-input-styles($studium-primary-500);
+        }
+        &:disabled {
+            background-color: #eee;
+        }
+    }
+    i {
+        opacity: 0.5;
+        top: calc(50% - 0.5em);
+        font-size: 1.9rem;
+        transition: all linear;
+        transition-duration: 100ms;
+    }
+    button {
+        background: none;
+        color: inherit;
+        border: none;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+        font-size: inherit;
+        top: 0;
+
+        &:hover {
+            i {
+                &:hover {
+                    opacity: 100%;
+                }
+            }
+        }
+    }
+    .icon {
+        position: absolute;
+        bottom: 0;
+        &.icon-right {
+            right: 1.3rem;
+        }
+        &.icon-left {
+            left: 1.3rem;
+        }
+    }
+}
