@@ -29,7 +29,7 @@ export class AuthService {
     private async generateTokenFromUserInformation(user: User) {
         const payload = JwtPayload.fromUser(user);
         const token = await this.jwtService.signAsync(
-            { ...payload, expiresIn: '1h' },
+            { ...payload },
             {
                 secret: this.configService.get<string>('JWT_SECRET'),
             },

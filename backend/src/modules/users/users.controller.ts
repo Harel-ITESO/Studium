@@ -6,13 +6,16 @@ import {
     NotFoundException,
     Put,
     Body,
+    UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { StudiumAuthGuard } from '../auth/guards/studium-auth.guard';
 
 @ApiTags('Users')
 @Controller('users')
+@UseGuards(StudiumAuthGuard)
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 

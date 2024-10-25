@@ -9,7 +9,7 @@ def generate_module():
 
     try:
         module_name = (sys.argv[1] + "").lower()
-        cmd = f"npx nest g mo {module_name} && npx nest g co {module_name} && npx nest g s {module_name}"
+        cmd = f"nest g mo {module_name} --no-spec && npx nest g co {module_name} --no-spec && npx nest g s {module_name} --no-spec"
 
         print("Generating Nest components")
 
